@@ -34,9 +34,14 @@ class AndroidExportPlugin extends EditorExportPlugin:
 	func _get_android_dependencies(platform, debug):
 		# TODO: Add remote dependices here.
 		if debug:
-			return PackedStringArray([])
+			return PackedStringArray(["com.appodeal.ads:sdk:3.8.0.1"])
 		else:
-			return PackedStringArray([])
+			return PackedStringArray(["com.appodeal.ads:sdk:3.8.0.1"])
+
+	func _get_android_dependencies_maven_repos(platform, debug):
+		return PackedStringArray([
+			"https://artifactory.appodeal.com/appodeal"
+		])
 
 	func _get_name():
 		return _plugin_name

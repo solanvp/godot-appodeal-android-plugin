@@ -3,6 +3,7 @@ package org.godotengine.plugin.appodeal.android
 
 import android.util.Log
 import android.widget.Toast
+import com.appodeal.ads.Appodeal
 import org.godotengine.godot.Godot
 import org.godotengine.godot.plugin.GodotPlugin
 import org.godotengine.godot.plugin.UsedByGodot
@@ -19,8 +20,17 @@ class GodotAndroidPlugin(godot: Godot): GodotPlugin(godot) {
     @UsedByGodot
     fun helloWorld() {
         runOnUiThread {
-            Toast.makeText(activity, "Hello World", Toast.LENGTH_LONG).show()
-            Log.v(pluginName, "Hello World")
+            Toast.makeText(activity, "Hello from Appodeal", Toast.LENGTH_LONG).show()
+            Log.v(pluginName, "Hello from Appodeal")
+        }
+    }
+
+    @UsedByGodot
+    fun check_appodeal() {
+        runOnUiThread {
+            val version = Appodeal.getVersion()
+            Toast.makeText(activity, "Appodeal version $version", Toast.LENGTH_LONG).show()
+            Log.v(pluginName, "Appodeal version $version")
         }
     }
 }
