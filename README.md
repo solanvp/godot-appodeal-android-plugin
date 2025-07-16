@@ -16,6 +16,9 @@ This is only the first step towards integrating the Appodeal SDK to Godot 4.4, l
 ```
 	if Engine.has_singleton("Appodealplugin"):
 		var appodealplugin = Engine.get_singleton("Appodealplugin")
+		appodealplugin.connect("signal_test", func(result): 
+			print(result)
+		)
 		appodealplugin.check_appodeal()
 ```
 
