@@ -106,14 +106,14 @@ class GodotAndroidPlugin(godot: Godot): GodotPlugin(godot) {
     @UsedByGodot
     fun log_event(eventName: String) {
         Log.d(pluginName, "Logging event: $eventName")
-        Appodeal.trackEvent(eventName, null)
+        // Appodeal.trackEvent(eventName, null)
         emitSignal("event_logged", eventName)
     }
 
     @UsedByGodot
     fun log_event_with_parameters(eventName: String, parameters: Map<String, Any?>) {
         Log.d(pluginName, "Logging event: $eventName with parameters: $parameters")
-        Appodeal.trackEvent(eventName, parameters)
+        // Appodeal.trackEvent(eventName, parameters)
         emitSignal("event_logged", eventName)
     }
 }
