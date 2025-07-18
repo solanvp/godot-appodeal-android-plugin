@@ -19,7 +19,19 @@ class GodotAndroidPlugin(godot: Godot): GodotPlugin(godot) {
         signals.add(SignalInfo("signal_test", String::class.java))
         signals.add(SignalInfo("appodeal_initialized", String::class.java))
         signals.add(SignalInfo("banner_shown", String::class.java))
+        signals.add(SignalInfo("event_logged", String::class.java))
         return signals
+    }
+
+
+    @UsedByGodot
+    fun check_appodeal() {
+        runOnUiThread {
+            val version = Appodeal.getVersion()
+            Toast.makeText(activity, "Appodeal version $version", Toast.LENGTH_LONG).show()
+            Log.v(pluginName, "Appodeal version $version")
+            emitSignal("signal_test", "Hello from Appodealplugin")
+        }
     }
 
     @UsedByGodot
@@ -46,6 +58,11 @@ class GodotAndroidPlugin(godot: Godot): GodotPlugin(godot) {
                 }
             )
         }
+    }
+
+    @UsedByGodot
+    fun is_banner_loaded(): Boolean {
+        return Appodeal.isLoaded(Appodeal.BANNER)
     }
 
     @UsedByGodot
@@ -82,22 +99,21 @@ class GodotAndroidPlugin(godot: Godot): GodotPlugin(godot) {
     }
 
     @UsedByGodot
-    fun check_appodeal() {
-        runOnUiThread {
-            val version = Appodeal.getVersion()
-            Toast.makeText(activity, "Appodeal version $version", Toast.LENGTH_LONG).show()
-            Log.v(pluginName, "Appodeal version $version")
-            emitSignal("signal_test", "Hello from Appodealplugin")
-        }
-    }
-
-    @UsedByGodot
-    fun is_banner_loaded(): Boolean {
-        return Appodeal.isLoaded(Appodeal.BANNER)
-    }
-
-    @UsedByGodot
     fun is_interstitial_loaded(): Boolean {
         return Appodeal.isLoaded(Appodeal.INTERSTITIAL)
+    }
+
+    @UsedByGodot
+    fun log_event(eventName: String) {
+        Log.d(pluginName, "Logging event: $eventName")
+        Appodeal.trackEvent(eventName, null)
+        emitSignal("event_logged", eventName)
+    }
+
+    @UsedByGodot
+    fun log_event_with_parameters(eventName: String, parameters: Map<String, Any?>) {
+        Log.d(pluginName, "Logging event: $eventName with parameters: $parameters")
+        Appodeal.trackEvent(eventName, parameters)
+        emitSignal("event_logged", eventName)
     }
 }
